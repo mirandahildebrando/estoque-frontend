@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../auth.service'; 
 
 @Component({
   selector: 'app-card-cadastro',
@@ -23,6 +23,10 @@ export class CardCadastro {
       username: ['', [Validators.required, Validators.minLength(8)]],
       password: ['', [Validators.required, Validators.minLength(5)]]
     });
+  }
+
+  get f() {
+    return this.cadastroForm.controls;
   }
 
   onSubmit() {

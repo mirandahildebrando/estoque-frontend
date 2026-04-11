@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, Router } from "@angular/router";
-import { AuthService } from '../../services/auth.service'; // Certifique-se de que o caminho está correto
+import { AuthService } from '../../auth.service'; 
 
 /**
  * Componente responsável pelo CARD DE LOGIN.
