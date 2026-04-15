@@ -4,16 +4,16 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // SUBSTITUA PELA URL DO SEU RENDER
-  private readonly API = 'https://seu-backend.onrender.com'; 
+
+  private readonly API = 'https://kronos-api-ck9x.onrender.com'; 
 
   constructor(private http: HttpClient) {}
 
   login(dados: any): Observable<any> {
-    return this.http.post(`${this.API}/auth/login`, dados);
+    return this.http.post(`${this.API}/login`, dados);
   }
 
   cadastrar(dados: any): Observable<any> {
-    return this.http.post(`${this.API}/auth/register`, dados);
+    return this.http.post(`${this.API}/users`, dados);
   }
 }
