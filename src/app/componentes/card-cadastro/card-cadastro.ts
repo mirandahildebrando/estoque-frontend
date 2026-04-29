@@ -3,13 +3,14 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
 import { AuthService } from '../../auth.service'; 
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-card-cadastro',
   standalone: true,
   templateUrl: './card-cadastro.html',
   styleUrls: ['./card-cadastro.css'],
-  imports: [ReactiveFormsModule]
+  imports: [ReactiveFormsModule, CommonModule]
 })
 export class CardCadastro {
   cadastroForm: FormGroup;

@@ -14,6 +14,9 @@ export class ListaProdutos implements OnInit {
   constructor(private produtoService: ProdutoService) {}
 
   ngOnInit() {
-    this.produtoService.listar().subscribe(dados => this.produtos = dados);
-  }
+  this.produtoService.listar().subscribe({
+    next: dados => this.produtos = dados,
+    error: err => console.log('ERRO PRODUTOS:', err)
+  });
+}
 }

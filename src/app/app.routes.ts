@@ -4,16 +4,10 @@ import { CardCadastro } from './componentes/card-cadastro/card-cadastro';
 import { ListaProdutos } from './componentes/lista-produtos/lista-produtos';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: CardLogin
-    },
-    {
-        path: 'cadastro',
-        component: CardCadastro
-    },
-    {
-        path: 'produtos',
-        component: ListaProdutos
-    }
+    
+  { path: '', component: CardLogin },
+  { path: 'login', component: CardLogin },
+  { path: 'cadastro', component: CardCadastro },
+  { path: 'produtos', component: ListaProdutos }
+
 ];

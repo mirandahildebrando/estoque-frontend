@@ -93,13 +93,10 @@ export class CardLogin {
         this.isLoading = false;
         console.log('Login bem-sucedido:', response);
         
-        // Se o seu Java devolve um Token, salve-o aqui (ex: localStorage)
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-        }
+       
 
         // Redireciona para a tela principal (estoque)
-        this.router.navigate(['/lista-produtos']);
+        this.router.navigate(['/products']);
       },
       error: (error) => {
         this.isLoading = false;
