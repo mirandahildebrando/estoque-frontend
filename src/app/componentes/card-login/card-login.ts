@@ -73,7 +73,7 @@ export class CardLogin {
         console.log('Login bem-sucedido:', response);
 
         // ✅ CORREÇÃO AQUI
-        this.router.navigate(['/login']);
+        this.router.navigate(['/products']);
       },
       error: (error) => {
         this.isLoading = false;
