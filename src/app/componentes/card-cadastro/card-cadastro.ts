@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './card-cadastro.html',
   styleUrls: ['./card-cadastro.css'],
-  imports: [ReactiveFormsModule, CommonModule]
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class CardCadastro {
   cadastroForm: FormGroup;
