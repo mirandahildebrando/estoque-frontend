@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class ProdutoService {
-  private readonly API = 'https://kronos-api-ck9x.onrender.com/produtos';
+  private readonly API = 'https://kronos-api-ck9x.onrender.com/products';
   constructor(private http: HttpClient) {}
 
   listar(): Observable<any[]> {
