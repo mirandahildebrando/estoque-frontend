@@ -9,7 +9,19 @@ export class ProdutoService {
 
   constructor(private http: HttpClient) {}
 
-  listar(): Observable<any[]> {
-    return this.http.get<any[]>(this.API);
-  }
+  listar() {
+  return this.http.get<any[]>(this.API);
+}
+
+criar(produto: any) {
+  return this.http.post(this.API, produto);
+}
+
+atualizar(produto: any) {
+  return this.http.put(`${this.API}/${produto.id}`, produto);
+}
+
+deletar(id: number) {
+  return this.http.delete(`${this.API}/${id}`);
+}
 }

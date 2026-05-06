@@ -1,22 +1,68 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProdutoService } from '../../services/produto-service'; // Certifique-se de que o caminho está correto
+import { FormsModule } from '@angular/forms';
+import { ProdutoService } from '../../services/produto-service';
 
 @Component({
   selector: 'app-lista-produtos',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './lista-produtos.html'
+  imports: [CommonModule, FormsModule],
+  templateUrl: './lista-produtos.html',
+  styleUrls: ['./lista-produtos.css']
 })
 export class ListaProdutos implements OnInit {
+
   produtos: any[] = [];
 
-  constructor(private produtoService: ProdutoService) {}
+  produto = {
+    id: null,
+    nome: '',
+    preco: 0
+  };
+
+  editando = false;
+
+  constructor(private service: ProdutoService) {}
 
   ngOnInit() {
-  this.produtoService.listar().subscribe({
-    next: dados => this.produtos = dados,
-    error: err => console.log('ERRO PRODUTOS:', err)
-  });
-}
+    this.listar();
+  }
+
+  listar() {
+    this.service.listar().subscribe(data => {
+      this.produtos = data;
+    });
+  }
+
+  salvarProduto() {
+    if (this.editando) {
+      // UPDATE (ajuste conforme sua API)
+      this.service.atualizar(this.produto).subscribe(() => {
+        this.listar();
+        this.limpar();
+      });
+    } else {
+      // CREATE
+      this.service.criar(this.produto).subscribe(() => {
+        this.listar();
+        this.limpar();
+      });
+    }
+  }
+
+  editar(p: any) {
+    this.produto = { ...p };
+    this.editando = true;
+  }
+
+  deletar(id: number) {
+    this.service.deletar(id).subscribe(() => {
+      this.listar();
+    });
+  }
+
+  limpar() {
+    this.produto = { id: null, nome: '', preco: 0 };
+    this.editando = false;
+  }
 }

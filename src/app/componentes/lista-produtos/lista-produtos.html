@@ -1,1 +1,58 @@
-<p>lista-produtos works!</p>
+<div class="container">
+
+  <h2>📦 Gestão de Produtos</h2>
+
+  <!-- FORMULÁRIO -->
+  <div class="card">
+    <h3>{{ editando ? 'Editar Produto' : 'Novo Produto' }}</h3>
+
+    <form (ngSubmit)="salvarProduto()">
+
+      <input
+        type="text"
+        placeholder="Nome do produto"
+        [(ngModel)]="produto.nome"
+        name="nome"
+        required
+      />
+
+      <input
+        type="number"
+        placeholder="Preço"
+        [(ngModel)]="produto.preco"
+        name="preco"
+        required
+      />
+
+      <button type="submit">
+        {{ editando ? 'Atualizar' : 'Criar' }}
+      </button>
+
+      <button type="button" (click)="limpar()">
+        Limpar
+      </button>
+
+    </form>
+  </div>
+
+  <!-- LISTA -->
+  <div class="card">
+    <h3>Lista de Produtos</h3>
+
+    <div *ngFor="let p of produtos" class="item">
+
+      <div>
+        <strong>{{ p.nome }}</strong><br />
+        R$ {{ p.preco }}
+      </div>
+
+      <div class="actions">
+        <button (click)="editar(p)">Editar</button>
+        <button (click)="deletar(p.id)">Excluir</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
