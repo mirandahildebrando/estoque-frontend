@@ -29,10 +29,10 @@ export class ListaProdutos implements OnInit {
   }
 
   listar() {
-    this.service.listar().subscribe(data => {
-      this.produtos = data;
-    });
-  }
+  this.service.listar().subscribe((res: any) => {
+    this.produtos = res.data; 
+  });
+}
 
   salvarProduto() {
     if (this.editando) {
