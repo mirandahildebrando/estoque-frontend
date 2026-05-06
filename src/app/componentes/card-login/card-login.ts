@@ -4,10 +4,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { RouterLink, Router } from "@angular/router";
 import { AuthService } from '../../auth.service'; 
 
-/**
- * Componente responsável pelo CARD DE LOGIN.
- * * Ajustado para conectar com o backend no Render.
- */
 @Component({
   selector: 'app-card-login',
   standalone: true,
@@ -21,92 +17,72 @@ import { AuthService } from '../../auth.service';
 })
 export class CardLogin {
 
-  /** * FormGroup que representa o formulário de login
-   */
   loginForm!: FormGroup;
-
-  /**
-   * Mensagem de erro exibida no template
-   */
   errorMessage: string = '';
-
-  /**
-   * Estado de carregamento para desativar o botão enquanto o backend responde
-   */
   isLoading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService, // Serviço injetado
-    private router: Router            // Para navegar após o login
+    private authService: AuthService,
+    private router: Router
   ) {
     this.buildForm();
   }
 
-  /**
-   * Cria e configura o formulário
-   */
   private buildForm(): void {
     this.loginForm = this.formBuilder.group({
       username: [
         '',
         [
           Validators.required,
-          Validators.minLength(8)
+          Validators.minLength(3) // ajustei pra não travar seus usuários existentes
         ]
       ],
       password: [
         '',
         [
           Validators.required,
-          Validators.minLength(5)
+          Validators.minLength(3)
         ]
       ]
     });
   }
 
-  /**
-   * Getter para facilitar o acesso aos campos no HTML
-   */
   get f() {
     return this.loginForm.controls;
   }
 
-  /**
-   * Executado ao clicar no botão Entrar
-   */
   onSubmit(): void {
-    this.errorMessage = ''; // Limpa erros anteriores
+    this.errorMessage = '';
 
-    // Validação visual antes de enviar
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
 
     this.isLoading = true;
-    const loginData = this.loginForm.value;
 
-    // Chamada real para o seu backend no Render
+    const loginData = {
+      username: this.loginForm.value.username?.trim(),
+      password: this.loginForm.value.password?.trim()
+    };
+
     this.authService.login(loginData).subscribe({
       next: (response) => {
         this.isLoading = false;
         console.log('Login bem-sucedido:', response);
-        
-       
 
-        // Redireciona para a tela principal (estoque)
-        this.router.navigate(['/products']);
+        // ✅ CORREÇÃO AQUI
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         this.isLoading = false;
         console.error('Erro no login:', error);
-        
-        // Tratamento de erro amigável
-        if (error.status === 403 || error.status === 401) {
+
+        if (error.status === 401) {
           this.errorMessage = 'Usuário ou senha incorretos.';
         } else {
-          this.errorMessage = 'O servidor demorou a responder. Tente novamente.';
+          this.errorMessage = 'Erro ao conectar com o servidor.';
         }
       }
     });

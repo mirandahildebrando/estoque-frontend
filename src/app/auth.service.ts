@@ -10,6 +10,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(dados: any): Observable<any> {
+    console.log('Enviando dados de login:', JSON.stringify(dados));
     return this.http.post(`${this.API}/auth/login`, dados);
   }
 
