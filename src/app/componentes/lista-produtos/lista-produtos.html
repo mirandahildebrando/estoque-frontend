@@ -1,5 +1,4 @@
 <div class="container">
-
   <h2>📦 Gestão de Produtos</h2>
 
   <!-- FORMULÁRIO -->
@@ -7,31 +6,40 @@
     <h3>{{ editando ? 'Editar Produto' : 'Novo Produto' }}</h3>
 
     <form (ngSubmit)="salvarProduto()">
-
       <input
         type="text"
         placeholder="Nome do produto"
-        [(ngModel)]="produto.nome"
-        name="nome"
+        [(ngModel)]="produto.name"
+        name="name"
         required
       />
 
       <input
         type="number"
         placeholder="Preço"
-        [(ngModel)]="produto.preco"
-        name="preco"
+        [(ngModel)]="produto.price"
+        name="price"
         required
       />
 
-      <button type="submit">
-        {{ editando ? 'Atualizar' : 'Criar' }}
-      </button>
+      <!-- NOVO CAMPO: Quantidade -->
+      <input
+        type="number"
+        placeholder="Quantidade"
+        [(ngModel)]="produto.quantity"
+        name="quantity"
+        required
+      />
 
-      <button type="button" (click)="limpar()">
-        Limpar
-      </button>
+      <div class="buttons">
+        <button type="submit">
+          {{ editando ? 'Atualizar' : 'Criar' }}
+        </button>
 
+        <button type="button" (click)="limpar()">
+          Limpar
+        </button>
+      </div>
     </form>
   </div>
 
@@ -40,19 +48,15 @@
     <h3>Lista de Produtos</h3>
 
     <div *ngFor="let p of produtos" class="item">
-
       <div>
-        <strong>{{ p.nome }}</strong><br />
-        R$ {{ p.preco }}
+        <strong>{{ p.name }}</strong><br />
+        R$ {{ p.price }} | Qtd: {{ p.quantity }}
       </div>
 
       <div class="actions">
         <button (click)="editar(p)">Editar</button>
         <button (click)="deletar(p.id)">Excluir</button>
       </div>
-
     </div>
-
   </div>
-
 </div>

@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ProdutoService } from '../../services/produto-service';
+import { CommonModule } from '@angular/common'; // Import necessário para Standalone
+import { FormsModule } from '@angular/forms';   // Import necessário para Standalone
 
 @Component({
   selector: 'app-lista-produtos',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: true, // Verifique se o seu é standalone
+  imports: [CommonModule, FormsModule], // Adicione isso aqui se der erro de ngModel
   templateUrl: './lista-produtos.html',
   styleUrls: ['./lista-produtos.css']
 })
 export class ListaProdutos implements OnInit {
 
   produtos: any[] = [];
+  editando = false;
 
   produto = {
-    id: null,
-    nome: '',
-    preco: 0
+    id: null as number | null,
+    name: '',
+    price: 0,
+    quantity: 0
   };
-
-  editando = false;
 
   constructor(private service: ProdutoService) {}
 
@@ -29,40 +29,48 @@ export class ListaProdutos implements OnInit {
   }
 
   listar() {
-  this.service.listar().subscribe((res: any) => {
-    this.produtos = res.data; 
-  });
-}
+    this.service.listar().subscribe({
+      next: (res: any) => {
+        this.produtos = res.data;
+      },
+      error: (err) => console.error('Erro ao listar', err)
+    });
+  }
 
   salvarProduto() {
     if (this.editando) {
-      // UPDATE (ajuste conforme sua API)
-      this.service.atualizar(this.produto).subscribe(() => {
-        this.listar();
-        this.limpar();
+      this.service.atualizar(this.produto).subscribe({
+        next: () => {
+          this.listar();
+          this.limpar();
+        }
       });
     } else {
-      // CREATE
-      this.service.criar(this.produto).subscribe(() => {
-        this.listar();
-        this.limpar();
+      this.service.criar(this.produto).subscribe({
+        next: () => {
+          this.listar();
+          this.limpar();
+        }
       });
     }
   }
 
   editar(p: any) {
-    this.produto = { ...p };
     this.editando = true;
+    this.produto = { id: p.id, name: p.name, price: p.price, quantity: p.quantity };
   }
 
   deletar(id: number) {
-    this.service.deletar(id).subscribe(() => {
-      this.listar();
-    });
+    if (confirm('Deseja excluir este produto?')) {
+      // Ajustado para 'deletar' ou 'excluir' conforme seu service
+      this.service.deletar(id).subscribe({
+        next: () => this.listar()
+      });
+    }
   }
 
   limpar() {
-    this.produto = { id: null, nome: '', preco: 0 };
     this.editando = false;
+    this.produto = { id: null, name: '', price: 0, quantity: 0 };
   }
 }
